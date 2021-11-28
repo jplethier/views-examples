@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_28_155606) do
+ActiveRecord::Schema.define(version: 2021_11_28_182859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,18 +39,19 @@ ActiveRecord::Schema.define(version: 2021_11_28_155606) do
     t.bigint "student_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "grade", default: "0.0", null: false
     t.index ["course_class_id"], name: "index_course_class_students_on_course_class_id"
     t.index ["student_id"], name: "index_course_class_students_on_student_id"
   end
 
   create_table "course_classes", force: :cascade do |t|
     t.bigint "teacher_id", null: false
-    t.bigint "course_id", null: false
     t.integer "year"
     t.integer "semester"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["course_id"], name: "index_course_classes_on_course_id"
+    t.bigint "discipline_id"
+    t.index ["discipline_id"], name: "index_course_classes_on_discipline_id"
     t.index ["teacher_id"], name: "index_course_classes_on_teacher_id"
   end
 
@@ -106,7 +107,7 @@ ActiveRecord::Schema.define(version: 2021_11_28_155606) do
   add_foreign_key "cities", "states"
   add_foreign_key "course_class_students", "course_classes"
   add_foreign_key "course_class_students", "students"
-  add_foreign_key "course_classes", "courses"
+  add_foreign_key "course_classes", "disciplines"
   add_foreign_key "course_classes", "teachers"
   add_foreign_key "disciplines", "courses"
   add_foreign_key "enrollments", "courses"
