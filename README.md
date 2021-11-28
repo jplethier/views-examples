@@ -28,21 +28,6 @@ inner join teachers on teachers.id = course_classes.teacher_id
 inner join courses on courses.id = disciplines.course_id;
 ```
 
-### Teacher's grade average per semester
-
-```sql
-select
-  teachers.id,
-  teachers.name,
-  course_classes.semester,
-  course_classes.year,
-  avg(course_class_students.grade) as average_grade
-from teachers
-inner join course_classes on teachers.id = course_classes.teacher_id
-inner join course_class_students on course_classes.id = course_class_students.course_class_id
-group by teachers.id, teachers.name, course_classes.semester, course_classes.year
-```
-
 ### Teachers's statistics per semester
 
 ```sql
