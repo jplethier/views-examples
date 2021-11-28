@@ -1,24 +1,7 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This project was created to show some examples on how to work with views on rails projects using scenic
 
-Things you may want to cover:
+## Database Diagram
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+https://dbdiagram.io/d/61a2e20b8c901501c0d585c8
