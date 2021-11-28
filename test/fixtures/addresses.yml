@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  student: 
+  stree: MyString
+  number: MyString
+  city: one
+
+two:
+  student: 
+  stree: MyString
+  number: MyString
+  city: two
