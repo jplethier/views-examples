@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_28_194147) do
+ActiveRecord::Schema.define(version: 2021_11_28_195915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,7 +120,8 @@ ActiveRecord::Schema.define(version: 2021_11_28_194147) do
       course_classes.semester,
       course_classes.year,
       students.name AS student_name,
-      students.email AS student_email
+      students.email AS student_email,
+      course_class_students.grade AS student_grade
      FROM (((((students
        JOIN course_class_students ON ((course_class_students.student_id = students.id)))
        JOIN course_classes ON ((course_classes.id = course_class_students.course_class_id)))
