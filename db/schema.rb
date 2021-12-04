@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_28_182859) do
+ActiveRecord::Schema.define(version: 2021_12_04_184946) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,4 +112,36 @@ ActiveRecord::Schema.define(version: 2021_11_28_182859) do
   add_foreign_key "disciplines", "courses"
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "students"
+
+  create_view "class_students_lists", sql_definition: <<-SQL
+      SELECT courses.name AS course_name,
+      disciplines.name AS discipline_name,
+      teachers.name AS teacher_name,
+      course_classes.semester,
+      course_classes.year,
+      students.name AS student_name,
+      students.email AS student_email,
+      course_class_students.grade AS student_grade
+     FROM (((((students
+       JOIN course_class_students ON ((course_class_students.student_id = students.id)))
+       JOIN course_classes ON ((course_classes.id = course_class_students.course_class_id)))
+       JOIN disciplines ON ((disciplines.id = course_classes.discipline_id)))
+       JOIN teachers ON ((teachers.id = course_classes.teacher_id)))
+       JOIN courses ON ((courses.id = disciplines.course_id)));
+  SQL
+  create_view "teachers_statistics", materialized: true, sql_definition: <<-SQL
+      SELECT teachers.id AS teacher_id,
+      teachers.name AS teacher_name,
+      course_classes.semester,
+      course_classes.year,
+      avg(course_class_students.grade) AS average_grade,
+      count(DISTINCT course_class_students.student_id) AS total_students,
+      count(DISTINCT course_class_students.course_class_id) AS total_classes
+     FROM ((teachers
+       JOIN course_classes ON ((teachers.id = course_classes.teacher_id)))
+       JOIN course_class_students ON ((course_classes.id = course_class_students.course_class_id)))
+    GROUP BY teachers.id, teachers.name, course_classes.semester, course_classes.year;
+  SQL
+  add_index "teachers_statistics", ["teacher_id", "semester", "year"], name: "index_teachers_statistics_on_teacher_id_and_semester_and_year", unique: true
+
 end
