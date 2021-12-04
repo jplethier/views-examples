@@ -202,3 +202,5 @@ class TeachersStatistic < ApplicationRecord
   end
 end
 ```
+
+Back to slides
